@@ -1,0 +1,341 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+}
+
+.title {
+  font-size: 1.65rem;
+  margin-bottom: var(--space-2);
+}
+
+.sub {
+  font-size: 0.9rem;
+  color: var(--text-2);
+  max-width: 500px;
+}
+
+/* ── Skills ─────────────────────────────────────────────── */
+.skillsBox {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: var(--space-4) var(--space-5);
+}
+
+.skillsLabel {
+  display: block;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--text-3);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin-bottom: var(--space-3);
+}
+
+.skillTags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.tag {
+  font-size: 0.78rem;
+  font-weight: 500;
+  color: var(--accent);
+  background: var(--accent-light);
+  border: 1px solid #c5d5fb;
+  border-radius: var(--radius-xs);
+  padding: 3px 9px;
+}
+
+/* ── Field ─────────────────────────────────────────────── */
+.field { display: flex; flex-direction: column; gap: var(--space-2); }
+
+.label {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--text-2);
+  letter-spacing: 0.01em;
+}
+
+.textarea {
+  width: 100%;
+  padding: var(--space-4);
+  font-family: var(--font-body);
+  font-size: 0.88rem;
+  line-height: 1.65;
+  color: var(--text);
+  background: var(--surface);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius);
+  resize: vertical;
+  transition: border-color 0.15s, box-shadow 0.15s;
+  min-height: 140px;
+}
+
+.textarea::placeholder { color: var(--text-4); }
+.textarea:focus {
+  outline: none;
+  border-color: var(--accent-mid);
+  box-shadow: 0 0 0 3px rgba(59,91,219,0.1);
+}
+
+.charCount {
+  font-size: 0.72rem;
+  color: var(--text-4);
+  text-align: right;
+}
+
+/* ── Section ─────────────────────────────────────────────── */
+.section { display: flex; flex-direction: column; gap: var(--space-3); }
+
+/* ── Mode grid ─────────────────────────────────────────────── */
+.modeGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-3);
+}
+
+.modeBtn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-5) var(--space-3);
+  background: var(--surface);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius);
+  cursor: pointer;
+  text-align: center;
+  transition: border-color 0.15s, background 0.15s, box-shadow 0.15s;
+}
+
+.modeBtn:hover {
+  border-color: var(--accent-mid);
+  background: var(--accent-light);
+}
+
+.modeBtnActive {
+  border-color: var(--accent) !important;
+  background: var(--accent-light) !important;
+  box-shadow: 0 0 0 3px rgba(59,91,219,0.1);
+}
+
+.modeIcon {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg-2);
+  border-radius: var(--radius-sm);
+  color: var(--text-2);
+  transition: color 0.15s, background 0.15s;
+}
+
+.modeBtnActive .modeIcon {
+  background: var(--accent);
+  color: white;
+}
+
+.modeName {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.modeSub {
+  font-size: 0.7rem;
+  color: var(--text-3);
+  line-height: 1.4;
+}
+
+/* ── Tier grid ─────────────────────────────────────────────── */
+.tierGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-3);
+}
+
+.tierBtn {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-1);
+  padding: var(--space-4) var(--space-4);
+  background: var(--surface);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius);
+  cursor: pointer;
+  text-align: left;
+  transition: border-color 0.15s, background 0.15s, box-shadow 0.15s;
+}
+
+.tierBtn:hover { border-color: var(--border-dark); }
+
+.tierBtnActive {
+  box-shadow: var(--shadow-sm);
+}
+
+.tierIconWrap {
+  width: 34px;
+  height: 34px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-sm);
+  background: var(--bg-2);
+  color: var(--text-2);
+  margin-bottom: var(--space-1);
+  transition: color 0.15s, background 0.15s;
+}
+
+.tierLabel {
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.tierDescription {
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--text-2);
+}
+
+.tierDetail {
+  font-size: 0.7rem;
+  color: var(--text-3);
+  line-height: 1.4;
+  margin-top: 2px;
+}
+
+/* ── Level grid ─────────────────────────────────────────────── */
+.levelGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--space-2);
+}
+
+.levelBtn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  padding: var(--space-3) var(--space-2);
+  background: var(--surface);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius);
+  cursor: pointer;
+  text-align: center;
+  transition: border-color 0.15s, background 0.15s;
+}
+
+.levelBtn:hover { border-color: var(--accent-mid); }
+
+.levelActive {
+  border-color: var(--accent) !important;
+  background: var(--accent-light) !important;
+}
+
+.levelLabel {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.levelSub {
+  font-size: 0.7rem;
+  color: var(--text-3);
+}
+
+/* ── Error ─────────────────────────────────────────────── */
+.error {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: 0.85rem;
+  color: var(--danger);
+  background: var(--danger-light);
+  border: 1px solid #fecaca;
+  border-radius: var(--radius-sm);
+  padding: var(--space-3) var(--space-4);
+}
+
+/* ── Loading ─────────────────────────────────────────────── */
+.loadingBox {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: var(--space-4) var(--space-5);
+}
+
+.loadingTitle {
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.loadingHint {
+  font-size: 0.75rem;
+  color: var(--text-3);
+  margin-top: 2px;
+}
+
+/* ── Actions ─────────────────────────────────────────────── */
+.actions {
+  display: flex;
+  gap: var(--space-3);
+}
+
+.backBtn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 12px 20px;
+  font-size: 0.88rem;
+  font-weight: 500;
+  color: var(--text-2);
+  background: var(--surface);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: border-color 0.15s, background 0.15s;
+  flex-shrink: 0;
+}
+
+.backBtn:hover { border-color: var(--border-dark); background: var(--bg-2); }
+
+.submitBtn {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  padding: 13px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  border: none;
+  border-radius: var(--radius);
+  background: var(--accent);
+  color: white;
+  cursor: pointer;
+  transition: background 0.15s, transform 0.1s, box-shadow 0.15s;
+}
+
+.submitBtn:hover:not(:disabled) {
+  background: var(--accent-dark);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(59,91,219,0.28);
+}
+
+.submitBtn:disabled { opacity: 0.45; cursor: not-allowed; transform: none; }
+
+@media (max-width: 520px) {
+  .modeGrid  { grid-template-columns: 1fr; }
+  .tierGrid  { grid-template-columns: 1fr; }
+  .levelGrid { grid-template-columns: repeat(2, 1fr); }
+}

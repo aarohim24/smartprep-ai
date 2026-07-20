@@ -1,0 +1,57 @@
+.recorder {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  margin-bottom: var(--space-2);
+}
+
+.micBtn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  position: relative;
+  padding: 7px 14px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  border-radius: var(--radius-sm);
+  border: 1.5px solid var(--border-dark);
+  background: var(--surface);
+  color: var(--text-2);
+  cursor: pointer;
+  transition: all 0.2s;
+  overflow: hidden;
+}
+
+.micBtn:hover {
+  border-color: var(--accent-mid);
+  color: var(--accent);
+  background: var(--accent-light);
+}
+
+.micActive {
+  border-color: var(--danger) !important;
+  color: var(--danger) !important;
+  background: var(--danger-light) !important;
+}
+
+.pulse {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: var(--danger);
+  opacity: 0.08;
+  animation: pulse 1.2s ease-in-out infinite;
+  pointer-events: none;
+}
+
+.recStatus {
+  font-size: 0.75rem;
+  color: var(--danger);
+  font-weight: 500;
+  animation: pulse 1.4s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.35; }
+}

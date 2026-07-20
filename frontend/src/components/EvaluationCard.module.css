@@ -1,0 +1,259 @@
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-5) var(--space-6);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+}
+
+/* ── Score row ──────────────────────────────────────────── */
+.scoreRow {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  flex-wrap: wrap;
+}
+
+.grade {
+  font-family: var(--font-display);
+  font-size: 1.8rem;
+  font-weight: 800;
+  width: 56px;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius);
+  flex-shrink: 0;
+  letter-spacing: -0.02em;
+}
+
+.scoreBlock { flex: 1; min-width: 160px; }
+
+.scoreLabel {
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--text-3);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  display: block;
+  margin-bottom: var(--space-2);
+}
+
+.meter { display: flex; align-items: center; gap: var(--space-3); }
+
+.meterTrack {
+  flex: 1;
+  height: 6px;
+  background: var(--bg-2);
+  border-radius: 99px;
+  overflow: hidden;
+}
+
+.meterFill {
+  height: 100%;
+  border-radius: 99px;
+  transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.scoreNum {
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.scoreMax { font-size: 0.75rem; font-weight: 500; color: var(--text-3); }
+
+/* ── Badges ──────────────────────────────────────────────── */
+.badges { display: flex; gap: var(--space-2); flex-wrap: wrap; }
+
+.confWarn, .confGood {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 0.73rem;
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: var(--radius-xs);
+}
+
+.confWarn { color: var(--warn); background: var(--warn-light); border: 1px solid #ffe066; }
+.confGood { color: var(--success); background: var(--success-light); border: 1px solid #b2f2bb; }
+
+/* ── Rubric ──────────────────────────────────────────────── */
+.rubricSection {
+  background: var(--bg);
+  border-radius: var(--radius);
+  padding: var(--space-4) var(--space-5);
+}
+
+.rubricTitle {
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--text-3);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  display: block;
+  margin-bottom: var(--space-3);
+}
+
+.rubricGrid { display: flex; flex-direction: column; gap: var(--space-3); }
+
+.rubricRow {
+  display: grid;
+  grid-template-columns: 140px 1fr 36px;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.rubricLabel {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.78rem;
+  font-weight: 500;
+  color: var(--text-2);
+}
+
+.rubricBar {
+  height: 5px;
+  background: var(--bg-3);
+  border-radius: 99px;
+  overflow: hidden;
+}
+
+.rubricFill {
+  height: 100%;
+  border-radius: 99px;
+  transition: width 0.8s ease;
+}
+
+.rubricVal {
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-align: right;
+}
+
+/* ── Feedback text ───────────────────────────────────────── */
+.feedback {
+  font-size: 0.88rem;
+  color: var(--text-2);
+  line-height: 1.7;
+  border-left: 3px solid var(--border-dark);
+  padding-left: var(--space-4);
+}
+
+/* ── Two col ─────────────────────────────────────────────── */
+.twoCol {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-4);
+}
+
+@media (max-width: 540px) { .twoCol { grid-template-columns: 1fr; } }
+
+.feedSection { display: flex; flex-direction: column; gap: var(--space-2); }
+
+.feedTitle {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  margin-bottom: 2px;
+}
+
+.feedList { list-style: none; display: flex; flex-direction: column; gap: var(--space-2); }
+
+.feedItem {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-2);
+  font-size: 0.82rem;
+  color: var(--text-2);
+  line-height: 1.5;
+}
+
+.dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  margin-top: 6px;
+}
+
+/* ── Follow-up ───────────────────────────────────────────── */
+.followUp {
+  background: var(--accent-light);
+  border: 1px solid #c5d5fb;
+  border-radius: var(--radius);
+  padding: var(--space-4);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.followUpLabel {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--accent);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.followUpText {
+  font-size: 0.88rem;
+  color: var(--text);
+  font-style: italic;
+  line-height: 1.5;
+}
+
+/* ── Provenance ──────────────────────────────────────────── */
+.provenance { display: flex; flex-direction: column; gap: var(--space-2); }
+
+.provenanceToggle {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--text-3);
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  width: fit-content;
+  transition: color 0.15s;
+}
+
+.provenanceToggle:hover { color: var(--text-2); }
+
+.provenanceList { display: flex; flex-direction: column; gap: var(--space-2); margin-top: 2px; }
+
+.provenanceItem {
+  display: flex;
+  gap: var(--space-2);
+  align-items: flex-start;
+}
+
+.provenanceDot {
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: var(--text-4);
+  flex-shrink: 0;
+  margin-top: 7px;
+}
+
+.provenanceText {
+  font-size: 0.78rem;
+  color: var(--text-3);
+  font-style: italic;
+  line-height: 1.5;
+}
