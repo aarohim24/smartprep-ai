@@ -1,0 +1,47 @@
+# render.yaml — Infrastructure-as-code for Render
+# Docs: https://render.com/docs/blueprint-spec
+#
+# Deploy both services from the same repo.
+# Set secret env vars in the Render dashboard (they are NOT committed here).
+
+services:
+  # ── Backend (FastAPI) ──────────────────────────────────────────────────────
+  - type: web
+    name: smartprep-backend
+    runtime: docker
+    dockerfilePath: ./backend/Dockerfile
+    dockerContext: ./backend
+    healthCheckPath: /health
+    envVars:
+      # Secret — set in Render dashboard, do NOT hardcode here
+      - key: GROQ_API_KEY
+        sync: false
+
+      # Defaults — override in dashboard if needed
+      - key: GROQ_MODEL
+        value: llama-3.3-70b-versatile
+      - key: EMBEDDING_MODEL
+        value: all-MiniLM-L6-v2
+      - key: LOG_LEVEL
+        value: INFO
+      - key: DATABASE_URL
+        value: sqlite+aiosqlite:///./smartprep.db
+      - key: VECTOR_STORE_PATH
+        value: /app/vector_store
+
+      # Set to your frontend URL in dashboard, e.g.:
+      # https://smartprep-frontend.onrender.com
+      - key: ALLOWED_ORIGINS_STR
+        sync: false
+
+  # ── Frontend (React + Vite → Nginx) ──────────────────────────────────────
+  - type: web
+    name: smartprep-frontend
+    runtime: docker
+    dockerfilePath: ./frontend/Dockerfile
+    dockerContext: ./frontend
+    envVars:
+      # Must point at the backend service public URL
+      # e.g. https://smartprep-backend.onrender.com/api/v1
+      - key: VITE_API_URL
+        sync: false
