@@ -1,5 +1,6 @@
 # ── Stage 1: install deps ───────────────────────────────────────────────────
 FROM python:3.11-slim AS builder
+# Cache-bust: v3 — switched from sentence-transformers/torch to fastembed/ONNX
 
 WORKDIR /app
 
