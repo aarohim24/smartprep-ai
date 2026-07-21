@@ -24,8 +24,9 @@ class Settings(BaseSettings):
     GROQ_API_KEY: str = "your-groq-api-key-here"
     GROQ_MODEL: str = "llama-3.3-70b-versatile"
 
-    # ── Embeddings ───────────────────────────────────────────────────────────
-    EMBEDDING_MODEL: str = "all-MiniLM-L6-v2"
+    # ── Embeddings ───────────────────────────────────────────────────────────────
+    # Uses fastembed (ONNX Runtime) — no PyTorch, ~80 MB RAM.
+    EMBEDDING_MODEL: str = "BAAI/bge-small-en-v1.5"
 
     # ── Storage ──────────────────────────────────────────────────────────────
     VECTOR_STORE_PATH: str = "./vector_store"

@@ -1,7 +1,7 @@
 """
 SmartPrep AI - RAG Service
-Uses sentence-transformers (free, local) for dense embeddings.
-Hybrid retrieval: FAISS dense + BM25 sparse, reranked with a cross-encoder.
+Uses fastembed (ONNX Runtime, no PyTorch) for dense embeddings.
+Hybrid retrieval: FAISS dense + BM25 sparse, optionally reranked with a cross-encoder.
 FAISS vector store provides per-session isolation.
 """
 import json
@@ -39,11 +39,11 @@ class RAGService:
         self._get_embedder()
 
     def _get_embedder(self):
-        """Load the local sentence-transformers model on first call."""
+        """Load the fastembed ONNX model on first call (no PyTorch required)."""
         if self._embedder is None:
-            from sentence_transformers import SentenceTransformer
-            logger.info(f"Loading embedding model: {settings.EMBEDDING_MODEL}")
-            self._embedder = SentenceTransformer(settings.EMBEDDING_MODEL)
+            from fastembed import TextEmbedding
+            logger.info(f"Loading embedding model (fastembed): {settings.EMBEDDING_MODEL}")
+            self._embedder = TextEmbedding(model_name=settings.EMBEDDING_MODEL)
             logger.info("Embedding model loaded")
         return self._embedder
 
@@ -53,16 +53,17 @@ class RAGService:
         Disabled by default (ENABLE_RERANKER=false) to stay within the 512 MB
         memory limit of Render's free tier.  Set ENABLE_RERANKER=true on
         instances with >=1 GB RAM to restore full hybrid reranking.
+        Note: requires sentence-transformers to be installed separately.
         """
         if not settings.ENABLE_RERANKER:
             return None
         if self._reranker is None:
             try:
-                from sentence_transformers import CrossEncoder
+                from sentence_transformers import CrossEncoder  # noqa: PLC0415
                 logger.info("Loading cross-encoder reranker: cross-encoder/ms-marco-MiniLM-L-6-v2")
                 self._reranker = CrossEncoder("cross-encoder/ms-marco-MiniLM-L-6-v2")
                 logger.info("Cross-encoder reranker loaded")
-            except Exception as e:
+            except (ImportError, Exception) as e:
                 logger.warning(f"Cross-encoder unavailable, reranking disabled: {e}")
                 self._reranker = None
         return self._reranker
@@ -287,15 +288,16 @@ class RAGService:
     # ── Embeddings (local, free) ────────────────────────────────────────────────
 
     def _embed_batch(self, texts: List[str]) -> List[List[float]]:
-        """Embed a batch of texts using the local sentence-transformers model."""
+        """Embed a batch of texts using the fastembed ONNX model."""
         embedder = self._get_embedder()
-        vectors = embedder.encode(texts, show_progress_bar=False, convert_to_numpy=True)
-        return vectors.tolist()
+        # fastembed.embed() returns a generator of numpy arrays
+        vectors = list(embedder.embed(texts))
+        return [v.tolist() for v in vectors]
 
     def _embed_single(self, text: str) -> List[float]:
         embedder = self._get_embedder()
-        vector = embedder.encode([text], show_progress_bar=False, convert_to_numpy=True)
-        return vector[0].tolist()
+        vector = list(embedder.embed([text]))[0]  # first (and only) result
+        return vector.tolist()
 
     # ── Persistence ───────────────────────────────────────────────────────────
 
