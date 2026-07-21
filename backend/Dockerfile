@@ -23,15 +23,21 @@ WORKDIR /app
 COPY --from=builder /usr/local/lib/python3.11 /usr/local/lib/python3.11
 COPY --from=builder /usr/local/bin /usr/local/bin
 
-# Copy app source
+# Copy app source (.env is excluded by .dockerignore — set secrets in Render dashboard)
 COPY . .
 
-# Pre-download only the dense embedder (all-MiniLM-L6-v2, ~90 MB).
-# The cross-encoder reranker is NOT pre-loaded here; it is off by default
-# (ENABLE_RERANKER=false) to keep startup RAM under 300 MB.
+# Build-time arg so the pre-bake model matches the runtime default exactly.
+# Override with --build-arg EMBEDDING_MODEL=... if you switch models.
+ARG EMBEDDING_MODEL=all-MiniLM-L6-v2
+ENV EMBEDDING_MODEL=${EMBEDDING_MODEL}
+
+# Pre-download the dense embedder at build time so startup is instant.
+# The cross-encoder reranker is NOT pre-loaded (ENABLE_RERANKER=false by default)
+# to keep container RAM well under the 512 MB Render free-tier limit.
 RUN python -c "\
 from sentence_transformers import SentenceTransformer; \
-SentenceTransformer('all-MiniLM-L6-v2')" || true
+import os; \
+SentenceTransformer(os.environ['EMBEDDING_MODEL'])" || true
 
 EXPOSE 8000
 
