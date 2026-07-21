@@ -2,6 +2,7 @@
 SmartPrep AI - Resume Upload API
 POST /api/v1/upload-resume
 """
+import asyncio
 import uuid
 from fastapi import APIRouter, UploadFile, File, HTTPException
 from app.models.schemas import ResumeUploadResponse
@@ -54,19 +55,22 @@ async def upload_resume(file: UploadFile = File(...)):
 
     session_id = str(uuid.uuid4())
 
-    # Index into FAISS
+    # Run RAG indexing and skill extraction in parallel — they are independent.
+    async def _extract_skills_safe():
+        try:
+            return await llm_service.extract_skills(extracted_text)
+        except Exception as e:
+            logger.warning(f"Skill extraction failed (non-fatal): {e}")
+            return []
+
     try:
-        chunk_count = await rag_service.index_document(session_id, extracted_text, "resume")
+        chunk_count, skills = await asyncio.gather(
+            rag_service.index_document(session_id, extracted_text, "resume"),
+            _extract_skills_safe(),
+        )
     except Exception as e:
         logger.error(f"RAG indexing error: {e}", exc_info=True)
         raise HTTPException(500, "Failed to index resume. Please try again.")
-
-    # Extract skills via LLM (non-fatal if it fails)
-    try:
-        skills = await llm_service.extract_skills(extracted_text)
-    except Exception as e:
-        logger.warning(f"Skill extraction failed (non-fatal): {e}")
-        skills = []
 
     # Persist session (async-safe)
     await session_store.create(session_id, {

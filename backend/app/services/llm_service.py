@@ -313,7 +313,7 @@ class LLMService:
                 {"role": "user", "content": user_prompt},
             ],
             temperature=self.temperature,
-            max_tokens=2500,
+            max_tokens=1800,  # 7 questions * ~200 tokens each fits well within 1800
             response_format={"type": "json_object"},
         )
 
@@ -437,7 +437,7 @@ class LLMService:
                 },
             ],
             temperature=0.1,
-            max_tokens=400,
+            max_tokens=250,  # 20 skills * ~10 tokens each; 250 is plenty
             response_format={"type": "json_object"},
         )
         data = json.loads(response.choices[0].message.content)

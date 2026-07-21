@@ -2,6 +2,7 @@
 SmartPrep AI - Question Generation API
 POST /api/v1/generate-questions
 """
+import asyncio
 from fastapi import APIRouter, HTTPException
 from app.models.schemas import (
     QuestionGenerationRequest, QuestionGenerationResponse,
@@ -51,20 +52,24 @@ async def generate_questions(request: QuestionGenerationRequest):
     num_questions = TIER_QUESTION_COUNTS.get(tier, request.num_questions)
     timer_seconds = TIER_TIMER_SECONDS.get(tier, 25 * 60)
 
-    # Index JD (dedup guard in RAGService prevents double-indexing)
-    try:
-        await rag_service.index_job_description(request.session_id, request.job_description)
-    except Exception as e:
-        logger.warning(f"JD indexing failed (non-critical): {e}")
+    # Index JD and retrieve resume context in parallel — they are independent.
+    # JD indexing dedup-guard in RAGService prevents double-indexing.
+    async def _index_jd_safe():
+        try:
+            await rag_service.index_job_description(request.session_id, request.job_description)
+        except Exception as e:
+            logger.warning(f"JD indexing failed (non-critical): {e}")
 
-    # Retrieve relevant context via hybrid RAG
-    try:
-        context = await rag_service.retrieve_for_questions(
-            request.session_id, request.job_description
-        )
-    except Exception as e:
-        logger.warning(f"RAG retrieval failed, falling back to raw resume: {e}")
-        context = ""
+    async def _retrieve_context_safe():
+        try:
+            return await rag_service.retrieve_for_questions(
+                request.session_id, request.job_description
+            )
+        except Exception as e:
+            logger.warning(f"RAG retrieval failed, falling back to raw resume: {e}")
+            return ""
+
+    _, context = await asyncio.gather(_index_jd_safe(), _retrieve_context_safe())
 
     if not context:
         context = session.get("resume_text", "")[:3000]
