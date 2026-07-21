@@ -3,5 +3,8 @@
   "outputDirectory": "dist",
   "installCommand": "npm install",
   "framework": "vite",
-  "rootDirectory": "frontend"
+  "rootDirectory": "frontend",
+  "env": {
+    "VITE_API_URL": "https://smartprep-ai-msoy.onrender.com/api/v1"
+  }
 }

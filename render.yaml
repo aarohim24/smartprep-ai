@@ -31,10 +31,10 @@ services:
       - key: VECTOR_STORE_PATH
         value: /app/vector_store
 
-      # Set to your frontend URL in dashboard, e.g.:
-      # https://smartprep-frontend.onrender.com
+      # Vercel frontend URL — allows CORS from the deployed frontend.
+      # If your Vercel URL differs, update this value.
       - key: ALLOWED_ORIGINS_STR
-        sync: false
+        value: "https://smartprep-ai.vercel.app,https://smartprep-ai-aarohim24.vercel.app"
 
   # ── Frontend (React + Vite → Nginx) ──────────────────────────────────────
   - type: web
