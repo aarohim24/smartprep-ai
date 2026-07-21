@@ -35,6 +35,10 @@ class Settings(BaseSettings):
     LOG_LEVEL: str = "INFO"
     DEBUG: bool = False
 
+    # ── Memory optimisation ───────────────────────────────────────────────────
+    # Set to true only if your instance has >1 GB RAM; cross-encoder adds ~200 MB.
+    ENABLE_RERANKER: bool = False
+
     # ── CORS ─────────────────────────────────────────────────────────────────
     # Comma-separated list of allowed origins, or "*" for open access.
     # Example: "https://smartprep.up.railway.app,https://my-frontend.vercel.app"

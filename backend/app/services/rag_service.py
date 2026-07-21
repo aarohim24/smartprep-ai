@@ -48,7 +48,14 @@ class RAGService:
         return self._embedder
 
     def _get_reranker(self):
-        """Load the cross-encoder reranker on first call (lazy)."""
+        """Load the cross-encoder reranker on first call (lazy).
+
+        Disabled by default (ENABLE_RERANKER=false) to stay within the 512 MB
+        memory limit of Render's free tier.  Set ENABLE_RERANKER=true on
+        instances with >=1 GB RAM to restore full hybrid reranking.
+        """
+        if not settings.ENABLE_RERANKER:
+            return None
         if self._reranker is None:
             try:
                 from sentence_transformers import CrossEncoder
